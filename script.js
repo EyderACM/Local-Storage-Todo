@@ -1,6 +1,6 @@
 const newTodo = document.querySelector('.new-todo');
 const itemsList = document.querySelector('.todos');
-const items = [];
+const items = JSON.parse(localStorage.getItem('items')) || [];
 
 function addTodo(e) {
     e.preventDefault();
@@ -11,6 +11,7 @@ function addTodo(e) {
     };
     items.push(item);
     populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
     this.reset();
 }
 
@@ -21,8 +22,9 @@ function populateList(todos = [], todosList) {
                 <input type="checkbox" data-index=${i} id="item${i}" ${todo.done ? 'checked' : ''}/> 
                 <label for="item${i}">${todo.text}</label>
             <li>
-        `
+        `;
     }).join('');
 }
 
 newTodo.addEventListener('submit', addTodo);
+populateList(items, itemsList)
