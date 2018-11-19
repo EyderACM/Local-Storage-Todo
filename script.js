@@ -15,6 +15,15 @@ function addTodo(e) {
     this.reset();
 }
 
+function toggleDone(e){
+    if(!e.target.matches('input')) return
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList)
+}
+
 function populateList(todos = [], todosList) {    
     todosList.innerHTML = todos.map((todo, i) => {
         return `
@@ -27,4 +36,6 @@ function populateList(todos = [], todosList) {
 }
 
 newTodo.addEventListener('submit', addTodo);
+itemsList.addEventListener('click', toggleDone);
+
 populateList(items, itemsList)
